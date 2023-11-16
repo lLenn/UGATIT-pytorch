@@ -1,6 +1,6 @@
-from UGATIT import UGATIT
+from .UGATIT import UGATIT
 import argparse
-from utils import *
+from .utils import *
 
 """parsing and configuration"""
 
