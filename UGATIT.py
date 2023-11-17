@@ -16,6 +16,7 @@ class UGATIT(object) :
             self.model_name = 'UGATIT'
 
         self.result_dir = args.result_dir
+        self.data_dir = args.data_dir
         self.dataset = args.dataset
 
         self.iteration = args.iteration
@@ -97,10 +98,10 @@ class UGATIT(object) :
             transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
         ])
 
-        self.trainA = ImageFolder(os.path.join('dataset', self.dataset, 'trainA'), train_transform)
-        self.trainB = ImageFolder(os.path.join('dataset', self.dataset, 'trainB'), train_transform)
-        self.testA = ImageFolder(os.path.join('dataset', self.dataset, 'testA'), test_transform)
-        self.testB = ImageFolder(os.path.join('dataset', self.dataset, 'testB'), test_transform)
+        self.trainA = ImageFolder(os.path.join(self.data_dir, self.dataset, 'trainA'), train_transform)
+        self.trainB = ImageFolder(os.path.join(self.data_dir, self.dataset, 'trainB'), train_transform)
+        self.testA = ImageFolder(os.path.join(self.data_dir, self.dataset, 'testA'), test_transform)
+        self.testB = ImageFolder(os.path.join(self.data_dir, self.dataset, 'testB'), test_transform)
         self.trainA_loader = DataLoader(self.trainA, batch_size=self.batch_size, shuffle=True)
         self.trainB_loader = DataLoader(self.trainB, batch_size=self.batch_size, shuffle=True)
         self.testA_loader = DataLoader(self.testA, batch_size=1, shuffle=False)
