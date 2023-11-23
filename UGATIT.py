@@ -24,6 +24,7 @@ class UGATIT(object) :
         self.decay_flag = args.decay_flag
 
         self.batch_size = args.batch_size
+        self.log_freq = args.log_freq
         self.print_freq = args.print_freq
         self.save_freq = args.save_freq
 
