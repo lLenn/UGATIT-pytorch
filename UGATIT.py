@@ -1,5 +1,5 @@
 import time, itertools, os
-from queue import Queue
+from multiprocessing import Queue
 from .dataset import ImageFolder
 from torchvision import transforms
 from torch.utils.data import DataLoader
