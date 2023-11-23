@@ -1,5 +1,5 @@
 import time, itertools, os
-from multiprocessing import Queue
+from collections import deque
 from .dataset import ImageFolder
 from torchvision import transforms
 from torch.utils.data import DataLoader
@@ -50,7 +50,7 @@ class UGATIT(object) :
         self.benchmark_flag = args.benchmark_flag
         self.resume = args.resume
         
-        self.savedFiles = Queue(maxsize = 2)
+        self.savedFiles = deque(maxlen = 2)
 
         if torch.backends.cudnn.enabled and self.benchmark_flag:
             print('set benchmark !')
@@ -351,8 +351,8 @@ class UGATIT(object) :
                 torch.save(params, os.path.join(self.result_dir, self.dataset + '_params_latest.pt'))
 
     def save(self, dir, step):
-        if self.savedFiles.full():
-            os.remove(self.savedFiles.get())
+        if len(self.savedFiles) == self.savedFile.maxlen:
+            os.remove(self.savedFiles.popleft())
         path = os.path.join(dir, self.dataset + '_params_%07d.pt' % step)
         params = {}
         params['genA2B'] = self.genA2B.state_dict()
@@ -362,7 +362,7 @@ class UGATIT(object) :
         params['disLA'] = self.disLA.state_dict()
         params['disLB'] = self.disLB.state_dict()
         torch.save(params, path)
-        self.savedFiles.put(path)
+        self.savedFiles.append(path)
 
     def load(self, dir, step):
         params = torch.load(os.path.join(dir, self.dataset + '_params_%07d.pt' % step))
