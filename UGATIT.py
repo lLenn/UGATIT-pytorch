@@ -352,7 +352,7 @@ class UGATIT(object) :
                 torch.save(params, os.path.join(self.result_dir, self.dataset + '_params_latest.pt'))
 
     def save(self, dir, step):
-        if len(self.savedFiles) == self.savedFile.maxlen:
+        if len(self.savedFiles) == self.savedFiles.maxlen:
             os.remove(self.savedFiles.popleft())
         path = os.path.join(dir, self.dataset + '_params_%07d.pt' % step)
         params = {}
